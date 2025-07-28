@@ -1,36 +1,40 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const connectDB = require('./config/db');
+const mongoose = require('mongoose');
 
+// Load env variables from .env file
 dotenv.config();
-connectDB();
+
+// Import routes
+const adminRoutes = require('./routes/adminRoutes');
+const patientRoutes = require('./routes/authRoutes'); // if you have
+const appointmentRoutes = require('./routes/appointmentRoutes'); // if separate
+const slotRoutes = require('./routes/slotRoutes'); // if separate
 
 const app = express();
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
 
-// Default health check route
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB Connected'))
+.catch((err) => {
+  console.error('MongoDB connection error:', err.message);
+  process.exit(1);
+});
+
+app.use('/api/admin', adminRoutes); 
+app.use('/api/patients', patientRoutes);
+app.use('/api/appointments', appointmentRoutes); 
+app.use('/api/slots', slotRoutes);
+
 app.get('/', (req, res) => {
-  res.send('API is running...');
+  res.send('Dental Clinic API is running');
 });
 
-// Import routes
-const authRoutes = require('./routes/authRoutes');
-const appointmentRoutes = require('./routes/appointmentRoutes');
-const slotRoutes = require('./routes/slotRoutes');
-const adminRoutes = require('./routes/adminRoutes'); // include this if you made it
-
-// Use routes
-app.use('/api/auth', authRoutes);
-app.use('/api/appointments', appointmentRoutes);
-app.use('/api/slots', slotRoutes); // <- ✅ You missed this line before
-app.use('/api/admin', adminRoutes); // <- Optional: admin-only routes
-
-// Start server
-const PORT = process.env.PORT || 5050;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

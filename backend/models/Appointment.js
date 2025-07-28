@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const appointmentSchema = new mongoose.Schema({
-  patient: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Patient',
+    ref: "User",
     required: true,
   },
   date: {
@@ -17,14 +17,10 @@ const appointmentSchema = new mongoose.Schema({
   reason: {
     type: String,
   },
-  status: {
-    type: String,
-    enum: ['scheduled', 'completed', 'cancelled'],
-    default: 'scheduled',
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
-}, { timestamps: true });
+});
 
-const Appointment = mongoose.model('Appointment', appointmentSchema);
-
-// ✅ CORRECT export:
-module.exports = Appointment;
+module.exports = mongoose.model("Appointment", appointmentSchema);

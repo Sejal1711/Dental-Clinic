@@ -1,6 +1,5 @@
 const AvailableSlot = require("../models/AvailableSlot");
 
-// ✅ Add Slot
 const addSlot = async (req, res) => {
   try {
     const { date, timeSlot } = req.body;
@@ -11,7 +10,6 @@ const addSlot = async (req, res) => {
   }
 };
 
-// ✅ Get All Slots
 const getAllSlots = async (req, res) => {
   try {
     const slots = await AvailableSlot.find();
@@ -21,7 +19,7 @@ const getAllSlots = async (req, res) => {
   }
 };
 
-// ✅ Delete Slot
+
 const deleteSlot = async (req, res) => {
   try {
     const slot = await AvailableSlot.findByIdAndDelete(req.params.id);
@@ -32,7 +30,6 @@ const deleteSlot = async (req, res) => {
   }
 };
 
-// ✅ Export all functions correctly
 module.exports = {
   addSlot,
   getAllSlots,

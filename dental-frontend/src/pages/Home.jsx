@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import HospitalMap from '../components/HospitalMap';
+import DoctorSchedule from '../components/DoctorSchedule'; // ✅ Import schedule
 
 const doctors = [
   {
@@ -15,8 +17,12 @@ const doctors = [
 ];
 
 const Home = () => {
+  const isAdmin = localStorage.getItem('role') === 'admin'; // ✅ Check role
+
   return (
     <div className="w-full">
+      {/* Hero Section with Video */}
+      <div className="relative w-full h-[70vh] overflow-hidden">
      
       <div className="w-full h-screen bg-white flex items-center justify-center overflow-hidden ">
         <video
@@ -68,6 +74,16 @@ const Home = () => {
           ))}
         </div>
       </section>
+
+      {/* 🗺️ Hospital Map Section */}
+      <HospitalMap />
+
+      {/* 🩺 Admin-only Schedule Section */}
+      {isAdmin && (
+        <section className="mt-12 px-4">
+          <DoctorSchedule />
+        </section>
+      )}
     </div>
   );
 };

@@ -1,54 +1,58 @@
 import React, { useEffect, useState } from 'react';
+
 import axios from 'axios';
+import './AllAppointments.css'; // ✅ assuming you'll use this for CSS
 
 const AllAppointments = () => {
   const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
-    const fetchAppointments = async () => {
-      try {
-        const token = localStorage.getItem('adminToken');
-        const response = await axios.get('http://localhost:5050/api/admin/appointments', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setAppointments(response.data);
-      } catch (error) {
-        console.error('Error fetching appointments:', error.response?.data || error.message);
-      }
-    };
+  const fetchAppointments = async () => {
+    try {
+      const token = localStorage.getItem('adminToken');
+      const res = await axios.get('/api/admin/appointments', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    fetchAppointments();
-  }, []);
+      // Proper Date comparison
+      const upcoming = res.data.filter(appt => {
+        const apptDate = new Date(appt.date);
+        const now = new Date();
+        return apptDate >= now && appt.status !== 'done';
+      });
+
+      setAppointments(upcoming);
+    } catch (error) {
+      console.error('Error fetching all appointments:', error);
+    }
+  };
+
+  fetchAppointments();
+}, []);
+
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>All Appointments</h2>
-      {appointments.length === 0 ? (
-        <p>No appointments found.</p>
-      ) : (
-        <table border="1" cellPadding="10" style={{ width: '100%', marginTop: '1rem' }}>
-          <thead>
-            <tr>
-              <th>Patient Name</th>
-              <th>Date</th>
-              <th>Slot</th>
-              <th>Reason</th>
-            </tr>
-          </thead>
-          <tbody>
+    <div>
+      
+      <div className="appointments-container">
+        <h2>Upcoming Appointments</h2>
+        {appointments.length === 0 ? (
+          <p>No upcoming appointments found.</p>
+        ) : (
+          <ul>
             {appointments.map((appt) => (
-              <tr key={appt._id}>
-                <td>{appt.patientName}</td>
-                <td>{appt.date}</td>
-                <td>{appt.slotTime}</td>
-                <td>{appt.reason}</td>
-              </tr>
+              <li key={appt._id} className="appointment-item">
+                <strong>Patient:</strong> {appt.patientName}<br />
+                <strong>Date:</strong> {appt.date}<br />
+                <strong>Time:</strong> {appt.time}<br />
+                <strong>Slot ID:</strong> {appt.slotId}
+              </li>
             ))}
-          </tbody>
-        </table>
-      )}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };

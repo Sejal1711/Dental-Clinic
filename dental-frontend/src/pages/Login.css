@@ -1,82 +1,56 @@
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 90vh;
-   
-}
-
-.login-form {
-  background-color: white;
-  padding: 40px 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  width: 100%;
+/* Login.css */
+.login-page {
   max-width: 400px;
-  box-sizing: border-box;
+  margin: 80px auto;
+  padding: 30px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.login-form h2 {
+.login-page h2 {
   text-align: center;
   margin-bottom: 25px;
+  font-size: 24px;
   color: #333;
 }
 
-.login-form label {
-  display: block;
+.login-page form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-page label {
   margin-bottom: 6px;
   font-weight: 500;
   color: #333;
 }
 
-.login-form input {
-  width: 100%;
-  padding: 10px 12px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
+.login-page input[type="email"],
+.login-page input[type="password"] {
+  padding: 10px;
+  border: 1px solid #bbb;
   border-radius: 6px;
-  font-size: 14px;
-  transition: 0.3s ease;
-}
-
-.login-form input:focus {
+  margin-bottom: 20px;
+  font-size: 16px;
   outline: none;
-  border-color: #4B3832;
 }
 
-.login-form button {
-  width: 100%;
-  padding: 12px;
-  background-color: #4B3832;
+.login-page input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.login-page button {
+  padding: 10px;
+  background-color: #007bff;
   border: none;
   color: white;
-  font-weight: bold;
-  border-radius: 6px;
   font-size: 16px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: background 0.3s ease;
 }
 
-.login-form button:hover {
-  background-color: #4B3832;
-}
-
-.login-form p {
-  text-align: center;
-  margin-top: 16px;
-  font-size: 14px;
-}
-
-.login-form a {
-  color: #4B3832;
-  text-decoration: none;
-  font-weight: 500;
-}
-.login-form select {
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #cbbfad;
-  border-radius: 5px;
-  background-color: #fff9f0;
-  font-size: 14px;
+.login-page button:hover {
+  background-color: #0056b3;
 }

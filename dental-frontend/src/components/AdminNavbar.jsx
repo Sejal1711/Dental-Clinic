@@ -1,16 +1,22 @@
+// src/components/AdminNavbar.jsx
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import './AdminNavbar.css'; // Assuming you have some styles for the admin navbar
 const AdminNavbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/login');
+  };
+
   return (
     <nav className="admin-navbar">
       <ul>
-        <li>
-          <NavLink to="/admin">Dashboard</NavLink>
-        </li>
-        <li>
-          <NavLink to="/admin/appointments">Appointments</NavLink>
-        </li>
+        <li><Link to="/admin/home">Admin Home</Link></li>
+        <li><Link to="/admin/appointments">Appointments</Link></li>
+        <li><Link to="/admin/slots">Manage Slots</Link></li>
+        <li><button onClick={handleLogout}>Logout</button></li>
       </ul>
     </nav>
   );

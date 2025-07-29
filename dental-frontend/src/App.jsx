@@ -1,5 +1,6 @@
+// src/App.jsx
 import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -11,20 +12,29 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import BookAppointment from './pages/BookAppointment';
 import AdminHome from './pages/AdminHome';
-import ViewAppointments from './pages/ViewAppointments'; // <-- add this
-// import AddSlot and DeleteSlot if created
+import ViewAppointments from './pages/ViewAppointments';
+import DoctorSchedule from './components/DoctorSchedule';
 
 function App() {
+  const location = useLocation();
+  const userType = localStorage.getItem('userType');
+
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
 
-  const userType = localStorage.getItem('userType');
+  const isAdmin = userType === 'admin';
 
   return (
     <div className="bg-background min-h-screen">
-      {userType !== 'admin' && <Navbar />}
+      {location.pathname.startsWith('/admin') && isAdmin ? (
+        <AdminNavbar />
+      ) : (
+        <Navbar />
+      )}
+
       <Routes>
+        {/* Public routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -33,9 +43,7 @@ function App() {
         {/* Admin Routes */}
         <Route path="/admin/home" element={<AdminHome />} />
         <Route path="/admin/appointments" element={<ViewAppointments />} />
-        {/* Add these when ready: */}
-        {/* <Route path="/admin/slots" element={<AddSlot />} /> */}
-
+        <Route path="/admin/slots" element={<DoctorSchedule />} />
       </Routes>
     </div>
   );

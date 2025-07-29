@@ -1,85 +1,75 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import "./Login.css";
-
+// src/pages/Login.jsx
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import './Login.css'; // Assuming you have some styles for the login page
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState("patient"); // 'patient' or 'admin'
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false); // toggle for admin
+
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const endpoint =
-        userType === "admin"
-          ? "http://localhost:5050/api/admin/login"
-          : "http://localhost:5050/api/patients/login";
+      const url = isAdmin
+        ? 'http://localhost:5050/api/admin/login'
+        : 'http://localhost:5050/api/patients/login';
 
-      const response = await axios.post(endpoint, { email, password });
+      const res = await axios.post(url, { email, password });
 
-      if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("userType", userType);
+      const { token } = res.data;
 
-        if (userType === "admin") {
-          navigate("/admin/home");
-        } else {
-          navigate("/");
-        }
+      // Save token and user type
+      localStorage.setItem('token', token);
+      localStorage.setItem('userType', isAdmin ? 'admin' : 'patient');
+
+      // Navigate to respective dashboard
+      if (isAdmin) {
+        navigate('/admin/home');
+      } else {
+        navigate('/');
       }
     } catch (err) {
-      alert("Login failed. Check your credentials.");
+      alert(err?.response?.data?.message || 'Login failed');
     }
   };
 
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleLogin}>
-        <h2>Login</h2>
+    <div className="login-page">
+      <h2>Login</h2>
+      <form onSubmit={handleLogin}>
+        <div>
+          <label>Email:</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required />
+        </div>
+
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required />
+        </div>
 
         <div>
           <label>
             <input
-              type="radio"
-              value="patient"
-              checked={userType === "patient"}
-              onChange={() => setUserType("patient")}
+              type="checkbox"
+              checked={isAdmin}
+              onChange={() => setIsAdmin(!isAdmin)}
             />
-            Patient
-          </label>
-          <label style={{ marginLeft: "15px" }}>
-            <input
-              type="radio"
-              value="admin"
-              checked={userType === "admin"}
-              onChange={() => setUserType("admin")}
-            />
-            Admin
+            Login as Admin
           </label>
         </div>
 
-        <label>Email</label>
-        <input
-          type="email"
-          value={email}
-          placeholder="Enter email"
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-
-        <label>Password</label>
-        <input
-          type="password"
-          value={password}
-          placeholder="Enter password"
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-
         <button type="submit">Login</button>
-        <p>Don't have an account? <a href="/register">Register here</a></p>
       </form>
     </div>
   );

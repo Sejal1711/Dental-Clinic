@@ -18,14 +18,16 @@ const Home = () => {
   return (
     <div className="w-full">
      
-      <div className="relative w-full h-[70vh] overflow-hidden">
+      <div className="w-full h-screen bg-white flex items-center justify-center overflow-hidden ">
         <video
-          className="w-full h-full object-cover"
+          className="absolute top-0 left-0 w-full h-full object-cover z-0"
           src="/clinic.mp4"
           autoPlay
           muted
           loop
+          playsInline
         />
+
         <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
           <h1 className="text-white text-4xl md:text-5xl font-bold">
             Welcome to Morya Dental Clinic
@@ -45,7 +47,7 @@ const Home = () => {
           Meet Our Doctors
         </motion.h2>
 
-        <div className="flex flex-col md:flex-row justify-center items-center gap-10 px-4">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-40 px-4">
           {doctors.map((doctor, index) => (
             <motion.div
               key={doctor.name}

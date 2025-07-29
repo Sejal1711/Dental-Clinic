@@ -40,12 +40,21 @@ const BookAppointment = () => {
     e.preventDefault();
     if (!slotId) return setMessage('Please select a time slot');
 
+    // Find the selected slot to get its timeSlot string
+    const selectedSlot = availableSlots.find(slot => slot._id === slotId);
+    if (!selectedSlot) {
+      setMessage('Invalid time slot selected');
+      return;
+    }
+
+    const timeSlot = selectedSlot.timeSlot;
+
     try {
       const res = await axios.post(
         'http://localhost:5050/api/appointments/book',
         {
           date,
-          slotId,
+          timeSlot, // <-- sending timeSlot now
           name,
           email,
           phone,
@@ -65,8 +74,9 @@ const BookAppointment = () => {
       setName('');
       setEmail('');
       setPhone('');
+      setAvailableSlots([]);
     } catch (err) {
-      setMessage(err.response?.data?.message || ' Booking failed');
+      setMessage(err.response?.data?.message || 'Booking failed');
     }
   };
 

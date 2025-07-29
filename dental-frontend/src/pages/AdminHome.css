@@ -1,0 +1,17 @@
+.dashboard-content {
+  padding: 2rem;
+  text-align: center;
+  background-color: #f9f9f9;
+  min-height: calc(100vh - 70px); /* Adjust height considering navbar */
+}
+
+.dashboard-content h2 {
+  font-size: 2rem;
+  color: #004080;
+  margin-bottom: 1rem;
+}
+
+.dashboard-content p {
+  font-size: 1.2rem;
+  color: #333;
+}

@@ -1,77 +1,71 @@
-import React, { useState } from 'react';
-
-// Sample time slots: 9:00 AM to 5:00 PM
-const generateTimeSlots = (start = 9, end = 17) => {
-  const slots = [];
-  for (let hour = start; hour < end; hour++) {
-    slots.push(`${hour}:00`);
-    slots.push(`${hour}:30`);
-  }
-  return slots;
-};
-
-const timeSlots = generateTimeSlots();
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import AdminNavbar from './AdminNavbar';
 
 const DoctorSchedule = () => {
-  const [selectedDate, setSelectedDate] = useState('');
-  const [appointments, setAppointments] = useState({});
+  const [slots, setSlots] = useState([]);
+  const [newSlot, setNewSlot] = useState('');
 
-  const handleSlotToggle = (slot) => {
-    if (!selectedDate) return;
+  const token = localStorage.getItem('adminToken');
 
-    setAppointments((prev) => {
-      const dayAppointments = prev[selectedDate] || [];
-      const isBooked = dayAppointments.includes(slot);
-
-      return {
-        ...prev,
-        [selectedDate]: isBooked
-          ? dayAppointments.filter((s) => s !== slot)
-          : [...dayAppointments, slot],
-      };
-    });
+  const fetchSlots = async () => {
+    try {
+      const res = await axios.get('/api/admin/slots', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setSlots(res.data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
+  const handleAddSlot = async () => {
+    try {
+      await axios.post(
+        '/api/admin/slots',
+        { time: newSlot },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setNewSlot('');
+      fetchSlots();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`/api/admin/slots/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      fetchSlots();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchSlots();
+  }, []);
+
   return (
-    <div className="p-6 max-w-3xl mx-auto bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Doctor Schedule</h2>
-
-      <div className="mb-6">
-        <label className="block text-gray-700 mb-2">Select Date:</label>
-        <input
-          type="date"
-          className="border rounded px-3 py-2 w-full"
-          value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
-        />
-      </div>
-
-      {selectedDate && (
-        <div>
-          <h3 className="text-lg font-semibold mb-3">
-            Slots for {selectedDate}
-          </h3>
-          <div className="grid grid-cols-3 gap-3">
-            {timeSlots.map((slot) => {
-              const isBooked = appointments[selectedDate]?.includes(slot);
-
-              return (
-                <button
-                  key={slot}
-                  onClick={() => handleSlotToggle(slot)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition duration-200 ${
-                    isBooked
-                      ? 'bg-red-500 text-white hover:bg-red-600'
-                      : 'bg-green-500 text-white hover:bg-green-600'
-                  }`}
-                >
-                  {slot} {isBooked ? '(Booked)' : '(Available)'}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
+    <div>
+      <AdminNavbar />
+      <h2>Manage Doctor Slots</h2>
+      <input
+        type="text"
+        placeholder="Enter slot time"
+        value={newSlot}
+        onChange={(e) => setNewSlot(e.target.value)}
+      />
+      <button onClick={handleAddSlot}>Add Slot</button>
+      <ul>
+        {slots.map((slot) => (
+          <li key={slot._id}>
+            {slot.time} <button onClick={() => handleDelete(slot._id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 const AvailableSlot = require('../models/AvailableSlot');
 
-// ✅ FIXED: Get all slots for a date
+
 const getAllSlots = async (req, res) => {
   try {
     const { date, availableOnly } = req.query;
@@ -42,7 +42,7 @@ const deleteSlot = async (req, res) => {
   }
 };
 
-// Delete all slots by date (YYYY-MM-DD format)
+
 const deleteSlotsByDate = async (req, res) => {
   const { date } = req.query;
   if (!date) {
@@ -60,7 +60,7 @@ const deleteSlotsByDate = async (req, res) => {
   }
 };
 
-// ➕ Generate default slots for the next 7 days
+
 const generateDefaultSlots = () => {
   const startHour = 10;
   const startMinute = 30;

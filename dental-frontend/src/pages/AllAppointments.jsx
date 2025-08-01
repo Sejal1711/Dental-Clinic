@@ -15,7 +15,7 @@ const AllAppointments = () => {
       }
 
       try {
-        const res = await fetch('http://localhost:5050/api/admin/appointments', {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/appointments`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

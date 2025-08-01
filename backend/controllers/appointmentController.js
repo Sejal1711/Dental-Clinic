@@ -35,8 +35,22 @@ const getAllAppointments = async (req, res) => {
   }
 };
 
+
+const getTodaysAppointments = async (req, res) => {
+  try {
+    const today = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD'
+
+    const appointments = await Appointment.find({ date: today });
+
+    res.status(200).json(appointments);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching today’s appointments', error });
+  }
+};
+
 module.exports = {
   bookAppointment,
   getAllAppointments,
+  getTodaysAppointments
 };
   

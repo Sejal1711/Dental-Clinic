@@ -1,13 +1,12 @@
-// src/pages/Login.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import './Login.css'; // Assuming you have some styles for the login page
+import './Authform.css';
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false); // toggle for admin
-
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -18,59 +17,64 @@ const Login = () => {
         : 'http://localhost:5050/api/patients/login';
 
       const res = await axios.post(url, { email, password });
-
       const { token } = res.data;
 
-      // Save token and user type
-      localStorage.setItem('token', token);
-      localStorage.setItem('userType', isAdmin ? 'admin' : 'patient');
-
-      // Navigate to respective dashboard
       if (isAdmin) {
-        navigate('/admin/home');
+        localStorage.setItem('adminToken', token);
       } else {
-        navigate('/');
+        localStorage.setItem('patientToken', token);
       }
+
+      localStorage.setItem('userType', isAdmin ? 'admin' : 'patient');
+      navigate(isAdmin ? '/admin/home' : '/');
     } catch (err) {
       alert(err?.response?.data?.message || 'Login failed');
     }
   };
 
   return (
-    <div className="login-page">
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required />
-        </div>
-
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required />
-        </div>
-
-        <div>
-          <label>
+    <div className="auth-wrapper">
+      <div className="auth-box">
+        <h2 className="auth-title">Welcome Back</h2>
+        <form className="auth-form" onSubmit={handleLogin}>
+          <div className="form-group">
+            <label>Email</label>
             <input
-              type="checkbox"
-              checked={isAdmin}
-              onChange={() => setIsAdmin(!isAdmin)}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
-            Login as Admin
-          </label>
-        </div>
+          </div>
 
-        <button type="submit">Login</button>
-      </form>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="checkbox-group">
+            <label>
+              <input
+                type="checkbox"
+                checked={isAdmin}
+                onChange={() => setIsAdmin(!isAdmin)}
+              />
+              Login as Admin
+            </label>
+          </div>
+
+          <button type="submit" className="btn-primary">Login</button>
+        </form>
+
+        <p className="switch-link hi">
+          New user? <Link to="/register">Register here</Link>
+        </p>
+      </div>
     </div>
   );
 };

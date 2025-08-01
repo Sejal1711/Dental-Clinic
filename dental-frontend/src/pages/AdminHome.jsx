@@ -1,6 +1,7 @@
 import React from 'react';
 import AdminNavbar from '../components/AdminNavbar';
 import './AdminHome.css'; // Ensure this path is correct
+import AdminDashboard from '../components/AdminDashboard';
 
 const AdminHome = () => {
   return (
@@ -8,7 +9,8 @@ const AdminHome = () => {
       
       <div className="dashboard-content">
         <h2>Welcome, Admin</h2>
-        <p>Use the navbar to manage slots and view appointments.</p>
+        <p className="hi">Use the navbar to manage slots and view appointments.</p>
+        <AdminDashboard/>
       </div>
     </div>
   );

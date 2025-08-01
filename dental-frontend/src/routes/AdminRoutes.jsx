@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import AdminHome from '../pages/AdminHome';
 import ViewAppointments from '../pages/ViewAppointments';
-import DoctorSchedule from '../components/DoctorSchedule';
+import DoctorSchedule from '../pages/DoctorSchedule';
 import AllAppointments from '../pages/allapointments'; // ✅ updated
 
 const AdminRoutes = () => {
@@ -12,6 +12,8 @@ const AdminRoutes = () => {
       <Route path="/admin/appointments" element={<ViewAppointments />} />
       <Route path="/admin/slots" element={<DoctorSchedule />} />
       <Route path="/admin/all-appointments" element={<AllAppointments />} />
+      
+
     </Routes>
   );
 };

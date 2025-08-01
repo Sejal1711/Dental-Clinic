@@ -6,10 +6,11 @@ export default {
   ],
   theme: {
     extend: {
-      colors:{
-        primary:'#5E4943',
-        background:'#F7F1E6' 
-      },
+       primary: '#5E4943',
+        background: '#F7F1E6',
+        'cream-rose': '#F8E1D6', // Soft pinkish cream
+        'light-gray': '#E5E7EB', // Light gray
+
     },
   },
   plugins: [],

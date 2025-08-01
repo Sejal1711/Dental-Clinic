@@ -21,7 +21,7 @@ const BookAppointment = () => {
       try {
         const res = await axios.get(`http://localhost:5050/api/slots?date=${date}`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('patientToken')}`,
           },
         });
         setAvailableSlots(res.data || []);
@@ -62,7 +62,7 @@ const BookAppointment = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('patientToken')}`,
           },
         }
       );

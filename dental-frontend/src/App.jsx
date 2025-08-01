@@ -6,15 +6,15 @@ import 'aos/dist/aos.css';
 
 import Navbar from './components/Navbar';
 import AdminNavbar from './components/AdminNavbar';
-
+import Footer from './components/Footer';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import BookAppointment from './pages/BookAppointment';
 import AdminHome from './pages/AdminHome';
-import ViewAppointments from './pages/ViewAppointments';
-import DoctorSchedule from './components/DoctorSchedule';
-
+import DoctorSchedule from './pages/DoctorSchedule';
+import AllAppointments from './pages/AllAppointments';
+import AdminDashboard from './components/AdminDashboard'; 
 function App() {
   const location = useLocation();
   const userType = localStorage.getItem('userType');
@@ -26,7 +26,7 @@ function App() {
   const isAdmin = userType === 'admin';
 
   return (
-    <div className="bg-background min-h-screen">
+    <div className="bg-background min-h-screen " >
       {location.pathname.startsWith('/admin') && isAdmin ? (
         <AdminNavbar />
       ) : (
@@ -40,12 +40,17 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/book" element={<BookAppointment />} />
 
-        {/* Admin Routes */}
+        {/* Admin routes */}
         <Route path="/admin/home" element={<AdminHome />} />
-        <Route path="/admin/appointments" element={<ViewAppointments />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
+        <Route path="/admin/appointments" element={<AllAppointments />} />
         <Route path="/admin/slots" element={<DoctorSchedule />} />
       </Routes>
+
+      <Footer/>
     </div>
+    
   );
 }
 

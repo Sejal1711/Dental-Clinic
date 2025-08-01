@@ -1,58 +1,79 @@
 import React, { useEffect, useState } from 'react';
-
-import axios from 'axios';
-import './AllAppointments.css'; // ✅ assuming you'll use this for CSS
+import './AllAppointments.css';
 
 const AllAppointments = () => {
   const [appointments, setAppointments] = useState([]);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-  const fetchAppointments = async () => {
-    try {
+    const fetchAppointments = async () => {
       const token = localStorage.getItem('adminToken');
-      const res = await axios.get('/api/admin/appointments', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
 
-      // Proper Date comparison
-      const upcoming = res.data.filter(appt => {
-        const apptDate = new Date(appt.date);
-        const now = new Date();
-        return apptDate >= now && appt.status !== 'done';
-      });
+      if (!token) {
+        setError('Admin not logged in or token missing.');
+        return;
+      }
 
-      setAppointments(upcoming);
-    } catch (error) {
-      console.error('Error fetching all appointments:', error);
-    }
-  };
+      try {
+        const res = await fetch('http://localhost:5050/api/admin/appointments', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-  fetchAppointments();
-}, []);
+        if (!res.ok) {
+          const data = await res.json();
+          throw new Error(data.message || 'Failed to fetch appointments');
+        }
 
+        const data = await res.json();
+
+        if (Array.isArray(data)) {
+          setAppointments(data);
+        } else {
+          throw new Error('Invalid data format received from server');
+        }
+      } catch (err) {
+        console.error('Fetch error:', err);
+        setError(err.message);
+      }
+    };
+
+    fetchAppointments();
+  }, []);
 
   return (
-    <div>
-      
-      <div className="appointments-container">
-        <h2>Upcoming Appointments</h2>
-        {appointments.length === 0 ? (
-          <p>No upcoming appointments found.</p>
-        ) : (
-          <ul>
-            {appointments.map((appt) => (
-              <li key={appt._id} className="appointment-item">
-                <strong>Patient:</strong> {appt.patientName}<br />
-                <strong>Date:</strong> {appt.date}<br />
-                <strong>Time:</strong> {appt.time}<br />
-                <strong>Slot ID:</strong> {appt.slotId}
-              </li>
+    <div className="appointments-container">
+      <h2>All Appointments</h2>
+      {error && <p className="error">{error}</p>}
+      {appointments.length === 0 ? (
+        <p>No appointments found.</p>
+      ) : (
+        <table className="appointments-table">
+          <thead>
+            <tr>
+              <th>Patient Name</th>
+              <th>Email</th>
+              <th>Date</th>
+              <th>Time Slot</th>
+              <th>Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            {appointments.map((appointment) => (
+              <tr key={appointment._id}>
+                <td>{appointment.user?.name}</td>
+                <td>{appointment.user?.email}</td>
+                <td>{appointment.date}</td>
+                <td>{appointment.timeSlot}</td>
+                <td>{appointment.reason || 'N/A'}</td>
+              </tr>
             ))}
-          </ul>
-        )}
-      </div>
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };

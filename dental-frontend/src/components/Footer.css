@@ -1,0 +1,10 @@
+.footer {
+  background-color: #0b2c4d; /* dark blue */
+  color: #fff;
+  text-align: center;
+  padding: 1rem 0;
+  width: 100%;
+  font-size: 0.9rem;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: auto;
+}

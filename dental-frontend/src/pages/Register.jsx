@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import './login.css';
 import axios from 'axios';
+import './Register.css';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
@@ -8,61 +8,83 @@ const Register = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: '',
-    confirmPassword: '',
-    age: '',
-    gender: '',
+    phno: '',
+    password: ''
   });
 
+  const [message, setMessage] = useState('');
+
   const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
 
     try {
-      const res = await axios.post('http://localhost:5050/api/auth/register', {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        age: formData.age,
-        gender: formData.gender,
-      });
+      const res = await axios.post('http://localhost:5050/api/patients/register', formData);
+      setMessage('Registered successfully!');
+      console.log(res.data);
 
-      if (res.status === 201 || res.status === 200) {
-        alert("Registration successful. Please log in.");
+      setTimeout(() => {
         navigate('/login');
-      }
+      }, 1000);
     } catch (err) {
-      console.error(err.response?.data || err.message);
-      alert("Registration failed. Try again.");
+      setMessage(err.response?.data?.message || 'Registration failed');
     }
   };
 
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <h2 className="login-title">Register</h2>
-        <input type="text" name="name" placeholder="Full Name" value={formData.name} onChange={handleChange} required />
-        <input type="email" name="email" placeholder="Email Address" value={formData.email} onChange={handleChange} required />
-        <input type="number" name="age" placeholder="Age" value={formData.age} onChange={handleChange} required />
-        <select name="gender" value={formData.gender} onChange={handleChange} required>
-          <option value="">Select Gender</option>
-          <option value="female">Female</option>
-          <option value="male">Male</option>
-          <option value="other">Other</option>
-        </select>
-        <input type="password" name="password" placeholder="Create Password" value={formData.password} onChange={handleChange} required />
-        <input type="password" name="confirmPassword" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} required />
-        <button type="submit" className="login-btn">Register</button>
+    <div className="form-container">
+      <form onSubmit={handleSubmit}>
+        <h2 className='hi'>Patient Registration</h2>
+
+        <label htmlFor="name">Name</label>
+        <input
+          id="name"
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+          placeholder="Enter your full name"
+        />
+
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+          placeholder="Enter your email"
+        />
+
+        <label htmlFor="phno">Phone Number</label>
+        <input
+          id="phno"
+          type="text"
+          name="phno"
+          value={formData.phno}
+          onChange={handleChange}
+          required
+          placeholder="Enter your phone number"
+        />
+
+        <label htmlFor="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+          placeholder="Create a password"
+        />
+
+        <button type="submit">Register</button>
+        {message && <p className="message">{message}</p>}
       </form>
     </div>
   );

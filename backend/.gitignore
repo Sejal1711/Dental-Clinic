@@ -1,0 +1,43 @@
+# Dependency folders
+node_modules/
+
+# Environment files (secret keys, tokens, etc.)
+.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# OS/System files
+.DS_Store
+Thumbs.db
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Build outputs (if any)
+dist/
+build/
+
+# Coverage reports
+coverage/
+
+# Cache & temp files
+*.tmp
+*.temp
+*.bak
+
+# Optional: PM2 logs
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# dotenv backup files
+.env.*.backup

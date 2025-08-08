@@ -1,6 +1,6 @@
 import React from 'react';
 import AdminNavbar from '../components/AdminNavbar';
-import './AdminHome.css'; // Ensure this path is correct
+import './AdminHome.css'; 
 import AdminDashboard from '../components/AdminDashboard';
 
 const AdminHome = () => {

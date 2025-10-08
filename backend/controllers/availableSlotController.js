@@ -1,35 +1,114 @@
 const AvailableSlot = require('../models/AvailableSlot');
+const Appointment = require('../models/Appointment');
 
-// ✅ FIXED: Get all slots for a date
+/**
+ * Generate slots for a single day
+ */
+const generateSlotsForDate = () => {
+  const startHour = 10;
+  const startMinute = 30;
+  const endHour = 22;
+
+  const slots = [];
+  let hour = startHour;
+  let minute = startMinute;
+
+  while (hour < endHour) {
+    const time = `${hour.toString().padStart(2, '0')}:${minute
+      .toString()
+      .padStart(2, '0')}`;
+    slots.push(time); // ✅ store as plain strings
+    hour += 1;
+  }
+
+  return slots;
+};
+
+/**
+ * Internal function for cron job or immediate run
+ * Runs without needing a request/response
+ */
+const generateSlotsForWeekInternal = async () => {
+  const today = new Date();
+
+  for (let i = 0; i < 7; i++) {
+    const date = new Date(today);
+    date.setDate(today.getDate() + i);
+    const yyyyMMdd = date.toISOString().split('T')[0];
+
+    const exists = await AvailableSlot.findOne({ date: yyyyMMdd });
+    if (!exists) {
+      await AvailableSlot.create({
+        date: yyyyMMdd,
+        slots: generateSlotsForDate(), // ✅ just strings
+      });
+      console.log(`✅ Created slots for ${yyyyMMdd}`);
+    } else {
+      console.log(`📅 Slots already exist for ${yyyyMMdd}`);
+    }
+  }
+};
+
+/**
+ * API endpoint version for manual trigger
+ */
+const generateSlotsForWeek = async (req, res) => {
+  try {
+    await generateSlotsForWeekInternal();
+    res.status(201).json({ message: 'Slots generated for the next 7 days' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error generating slots' });
+  }
+};
+
 const getAllSlots = async (req, res) => {
   try {
     const { date, availableOnly } = req.query;
 
     if (!date) {
-      return res.status(400).json({ message: 'Please provide a date in query' });
+      return res
+        .status(400)
+        .json({ message: "Please provide a date in query" });
     }
 
-    let query = { date };
-
-    if (availableOnly === 'true') {
-      query.isBooked = false; // Only free slots
+    const slotsDoc = await AvailableSlot.findOne({ date });
+    if (!slotsDoc) {
+      return res.status(404).json({ message: "No slots found for this date" });
     }
 
-    const slots = await AvailableSlot.find(query);
+    // Fetch appointments for that date
+    const appointments = await Appointment.find({ date });
+    const bookedTimes = appointments.map((a) => a.timeSlot);
 
-    if (!slots || slots.length === 0) {
-      return res.status(404).json({ message: 'No slots found for the selected criteria' });
+    // Decorate slots with booking status
+    let slots = slotsDoc.slots.map((time) => ({
+      time,
+      isBooked: bookedTimes.includes(time),
+    }));
+
+    // If availableOnly=true → filter
+    if (availableOnly === "true") {
+      slots = slots.filter((s) => !s.isBooked);
     }
 
-    res.status(200).json(slots);
+    return res.status(200).json({
+      date: slotsDoc.date,
+      totalSlots: slotsDoc.slots.length,
+      availableSlots: slots.filter((s) => !s.isBooked).length,
+      slots,
+    });
   } catch (error) {
-    console.error('Error fetching slots:', error);
-    res.status(500).json({ message: 'Server error while fetching slots' });
+    console.error("Error fetching slots:", error);
+    return res
+      .status(500)
+      .json({ message: "Server error while fetching slots" });
   }
 };
 
-
-// Delete a single slot by ID
+/**
+ * Delete a single slot document by ID
+ */
 const deleteSlot = async (req, res) => {
   try {
     const slot = await AvailableSlot.findByIdAndDelete(req.params.id);
@@ -42,7 +121,9 @@ const deleteSlot = async (req, res) => {
   }
 };
 
-// Delete all slots by date (YYYY-MM-DD format)
+/**
+ * Delete all slots by date
+ */
 const deleteSlotsByDate = async (req, res) => {
   const { date } = req.query;
   if (!date) {
@@ -60,47 +141,10 @@ const deleteSlotsByDate = async (req, res) => {
   }
 };
 
-// ➕ Generate default slots for the next 7 days
-const generateDefaultSlots = () => {
-  const startHour = 10;
-  const startMinute = 30;
-  const endHour = 22;
-
-  const allSlots = [];
-  const now = new Date();
-
-  for (let d = 0; d < 7; d++) {
-    const date = new Date(now);
-    date.setDate(now.getDate() + d);
-    const yyyyMMdd = date.toISOString().split('T')[0];
-
-    let hour = startHour;
-    let minute = startMinute;
-
-    while (hour < endHour) {
-      const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-      allSlots.push({ date: yyyyMMdd, timeSlot: time });
-      hour += 1;
-    }
-  }
-
-  return allSlots;
-};
-
-const generateSlotsForWeek = async (req, res) => {
-  try {
-    const slots = generateDefaultSlots();
-    await AvailableSlot.insertMany(slots);
-    res.status(201).json({ message: 'Slots generated for the next 7 days', slots });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error generating slots' });
-  }
-};
-
 module.exports = {
   getAllSlots,
   deleteSlot,
   deleteSlotsByDate,
   generateSlotsForWeek,
+  generateSlotsForWeekInternal,
 };

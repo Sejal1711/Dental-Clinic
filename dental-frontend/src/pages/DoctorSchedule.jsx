@@ -24,7 +24,7 @@ const DoctorSchedule = () => {
       }
 
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/slots?date=${date}`,
+        `http://localhost:5050/api/slots?date=${date}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -80,7 +80,7 @@ const DoctorSchedule = () => {
       };
 
       const response = await axios.delete(
-       `${import.meta.env.VITE_API_URL}/api/slots/day?date=${selectedDate}`,
+       `http://localhost:5050/api/slots/day?date=${selectedDate}`,
         config
       );
 

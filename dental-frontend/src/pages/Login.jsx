@@ -13,8 +13,8 @@ const Login = () => {
     e.preventDefault();
     try {
       const url = isAdmin
-        ? `${import.meta.env.VITE_API_URL}/api/admin/login`
-        : `${import.meta.env.VITE_API_URL}/api/patients/login`;
+        ? `http://localhost:5050/api/admin/login`
+        : `http://localhost:5050/api/patients/login`;
 
       const res = await axios.post(url, { email, password });
       const { token } = res.data;

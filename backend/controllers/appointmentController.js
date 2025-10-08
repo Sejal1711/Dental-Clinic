@@ -38,7 +38,7 @@ const getAllAppointments = async (req, res) => {
 
 const getTodaysAppointments = async (req, res) => {
   try {
-    const today = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD'
+    const today = new Date().toISOString().split('T')[0]; 
 
     const appointments = await Appointment.find({ date: today });
 

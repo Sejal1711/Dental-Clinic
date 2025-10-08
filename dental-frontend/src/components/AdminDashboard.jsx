@@ -9,7 +9,7 @@ const AdminDashboard = () => {
     const fetchAppointments = async () => {
       try {
         const token = localStorage.getItem('adminToken');
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/appointments/today`, {
+        const res = await axios.get(`http://localhost:5050/api/admin/appointments/today`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

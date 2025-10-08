@@ -15,6 +15,7 @@ import AdminHome from './pages/AdminHome';
 import DoctorSchedule from './pages/DoctorSchedule';
 import AllAppointments from './pages/AllAppointments';
 import AdminDashboard from './components/AdminDashboard'; 
+import PatientDashboard from './pages/PatientDashboard';
 function App() {
   const location = useLocation();
   const userType = localStorage.getItem('userType');
@@ -46,6 +47,7 @@ function App() {
 
         <Route path="/admin/appointments" element={<AllAppointments />} />
         <Route path="/admin/slots" element={<DoctorSchedule />} />
+        <Route path="/patient/dashboard" element={<PatientDashboard/>}/>
       </Routes>
 
       <Footer/>

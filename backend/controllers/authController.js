@@ -1,6 +1,6 @@
 const Patient = require("../models/Patient");
 const jwt = require("jsonwebtoken");
-
+const Appointment=require("../models/Appointment");
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 };
@@ -43,4 +43,20 @@ exports.loginPatient = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+exports.getPatientDashboard= async(req,res)=>{
+  try{
+    const patient= req.user;
+    const appointments= await Appointment.find({user:patient._id}).sort({date:-1});
+      res.status(200).json({
+        name:patient.name,
+        email:patient.email,
+        appointments,
+      })
+
+    }catch(error){
+      console.error(error);
+      res.status(500).json({message:"Failed to fetch dashboard"});
+    }
+  }
 

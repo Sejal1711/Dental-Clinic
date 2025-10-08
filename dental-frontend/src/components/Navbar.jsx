@@ -68,6 +68,13 @@ const handleLogout = () => {
           Admin Dashboard
         </Link>
       )}
+      
+
+{user && userType === 'patient' && (
+  <Link to="/patient/dashboard" className="text-[#e0e1dd] px-4 py-2 rounded-md hover:bg-[#1b263b] transition duration-200">
+    My Dashboard
+  </Link>
+)}
 
       {!user ? (
         <>

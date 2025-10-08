@@ -32,7 +32,7 @@ h2 {
   justify-content: space-between;
   align-items: center;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  color: #000; /* Make text black */
+  color:white; /* Make text black */
 }
 
 .slot-list li:hover {

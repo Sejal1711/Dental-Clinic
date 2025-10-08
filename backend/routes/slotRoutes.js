@@ -11,8 +11,8 @@ const router = express.Router();
 
 router.get("/", protect, getAllSlots);
 // router.post("/", protect, generateDefaultSlots);
-router.delete("/day", protect, deleteSlotsByDate);   // Delete all slots on a day (by date query param)
-router.delete("/:id", protect, deleteSlot);          // Delete a specific slot by ID
+router.delete("/day", protect, deleteSlotsByDate);   
+router.delete("/:id", protect, deleteSlot);       
 router.post('/generate-week', protect, generateSlotsForWeek);
 
 

@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-// Load env variables from .env file
+
 dotenv.config();
 
 const cron = require('node-cron'); // ✅ Add cron here

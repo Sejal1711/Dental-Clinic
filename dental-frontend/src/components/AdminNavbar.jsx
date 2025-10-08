@@ -1,7 +1,7 @@
-// src/components/AdminNavbar.jsx
+
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './AdminNavbar.css'; // Assuming you have some styles for the admin navbar
+import './AdminNavbar.css'; 
 const AdminNavbar = () => {
   const navigate = useNavigate();
 

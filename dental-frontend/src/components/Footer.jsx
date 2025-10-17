@@ -61,7 +61,7 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center">
                 <Phone className="w-5 h-5 text-blue-400 mr-3" />
-                <span className="text-gray-300">+1 (555) 123-4567</span>
+                <span className="text-gray-300">123456789</span>
               </div>
               <div className="flex items-center">
                 <Mail className="w-5 h-5 text-blue-400 mr-3" />
@@ -69,11 +69,11 @@ const Footer = () => {
               </div>
               <div className="flex items-start">
                 <MapPin className="w-5 h-5 text-blue-400 mr-3 mt-1" />
-                <span className="text-gray-300">123 Dental Street<br />Health City, HC 12345</span>
+                <span className="text-gray-300">Morya Dental Clinic<br />Ch. Sambhajinagar</span>
               </div>
               <div className="flex items-center">
                 <Clock className="w-5 h-5 text-blue-400 mr-3" />
-                <span className="text-gray-300">Mon-Fri: 9AM-6PM<br />Sat: 9AM-2PM</span>
+                <span className="text-gray-300">Mon-Fri: 10AM-9PM<br />Sat: 9AM-2PM</span>
               </div>
             </div>
           </div>

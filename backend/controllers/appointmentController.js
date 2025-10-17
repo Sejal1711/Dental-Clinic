@@ -44,7 +44,7 @@ const getTodaysAppointments = async (req, res) => {
 
     res.status(200).json(appointments);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching today's appointments', error });
+    res.status(500).json({ message: "Error fetching today's appointments", error });
   }
 };
 
@@ -71,14 +71,15 @@ const getUpcomingAppointments = async (req, res) => {
     console.log('Upcoming appointments query:', {
       patientId,
       today,
-      currentTime
+      currentTime,
+      currentDate: new Date()
     });
 
     // First, let's get ALL appointments for this patient to debug
     const allAppointments = await Appointment.find({ user: patientId });
     console.log('All appointments for patient:', allAppointments);
 
-    // Get upcoming appointments (simplified query for now)
+    // Get upcoming appointments - include all future appointments and today's appointments
     const appointments = await Appointment.find({
       user: patientId,
       date: { $gte: today }, // Today and future dates

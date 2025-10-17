@@ -45,7 +45,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/patients', patientRoutes);
 app.use('/api/appointments', appointmentRoutes); 
 app.use('/api/slots', slotRoutes);
-app.use('/api/patients', patientHistoryRoutes);
+app.use('/api/history', patientHistoryRoutes);
 
 app.get('/', (req, res) => {
   res.send('Dental Clinic API is running');

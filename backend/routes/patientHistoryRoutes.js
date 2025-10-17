@@ -5,15 +5,15 @@ const {
   addTreatmentNotes,
   getAppointmentDetails
 } = require('../controllers/patientHistoryController');
-const authMiddleware = require('../middleware/authMiddleware');
+const { protect } = require('../middleware/authMiddleware');
 
 // Get patient medical history
-router.get('/history/:patientId', authMiddleware, getPatientHistory);
+router.get('/history/:patientId', protect, getPatientHistory);
 
 // Add treatment notes to an appointment (admin only)
-router.put('/appointment/:appointmentId/notes', authMiddleware, addTreatmentNotes);
+router.put('/appointment/:appointmentId/notes', protect, addTreatmentNotes);
 
 // Get specific appointment details
-router.get('/appointment/:appointmentId', authMiddleware, getAppointmentDetails);
+router.get('/appointment/:appointmentId', protect, getAppointmentDetails);
 
 module.exports = router;

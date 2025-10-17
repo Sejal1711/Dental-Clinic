@@ -19,7 +19,7 @@ const PatientHistory = ({ isOpen, onClose, patientId }) => {
     
     try {
       const token = localStorage.getItem('patientToken');
-      const response = await axios.get(`http://localhost:5050/api/patients/history/${patientId}`, {
+      const response = await axios.get(`http://localhost:5050/api/history/history/${patientId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

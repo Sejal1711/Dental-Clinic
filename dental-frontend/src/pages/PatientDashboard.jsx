@@ -46,14 +46,18 @@ const PatientDashboard = () => {
 
   const fetchUpcomingCount = async (patientId, token) => {
     try {
+      console.log('Fetching upcoming count for patient:', patientId);
       const response = await axios.get(`http://localhost:5050/api/appointments/upcoming/${patientId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log('Upcoming count response:', response.data);
+      console.log('Upcoming count length:', response.data?.length);
       setUpcomingCount(response.data?.length || 0);
     } catch (err) {
       console.error('Error fetching upcoming count:', err);
+      console.error('Error response:', err.response?.data);
       setUpcomingCount(0);
     }
   };

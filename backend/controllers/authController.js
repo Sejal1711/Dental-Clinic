@@ -49,6 +49,7 @@ exports.getPatientDashboard= async(req,res)=>{
     const patient= req.user;
     const appointments= await Appointment.find({user:patient._id}).sort({date:-1});
       res.status(200).json({
+        _id: patient._id,
         name:patient.name,
         email:patient.email,
         appointments,

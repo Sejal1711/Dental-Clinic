@@ -16,6 +16,7 @@ import DoctorSchedule from './pages/DoctorSchedule';
 import AllAppointments from './pages/AllAppointments';
 import AdminDashboard from './components/AdminDashboard'; 
 import PatientDashboard from './pages/PatientDashboard';
+
 function App() {
   const location = useLocation();
   const userType = localStorage.getItem('userType');
@@ -27,7 +28,7 @@ function App() {
   const isAdmin = userType === 'admin';
 
   return (
-    <div className="bg-background min-h-screen " >
+    <div className="min-h-screen bg-gray-50">
       {location.pathname.startsWith('/admin') && isAdmin ? (
         <AdminNavbar />
       ) : (
@@ -44,15 +45,15 @@ function App() {
         {/* Admin routes */}
         <Route path="/admin/home" element={<AdminHome />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
-
         <Route path="/admin/appointments" element={<AllAppointments />} />
         <Route path="/admin/slots" element={<DoctorSchedule />} />
+        
+        {/* Patient routes */}
         <Route path="/patient/dashboard" element={<PatientDashboard/>}/>
       </Routes>
 
       <Footer/>
     </div>
-    
   );
 }
 

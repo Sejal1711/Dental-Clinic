@@ -1,19 +1,15 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import AdminHome from '../pages/AdminHome';
-import ViewAppointments from '../pages/ViewAppointments';
 import DoctorSchedule from '../pages/DoctorSchedule';
-import AllAppointments from '../pages/allapointments'; // ✅ updated
+import AllAppointments from '../pages/AllAppointments';
 
 const AdminRoutes = () => {
   return (
     <Routes>
       <Route path="/admin/home" element={<AdminHome />} />
-      <Route path="/admin/appointments" element={<ViewAppointments />} />
+      <Route path="/admin/appointments" element={<AllAppointments />} />
       <Route path="/admin/slots" element={<DoctorSchedule />} />
-      <Route path="/admin/all-appointments" element={<AllAppointments />} />
-      
-
     </Routes>
   );
 };

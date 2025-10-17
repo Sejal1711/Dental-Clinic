@@ -13,7 +13,8 @@ const { generateSlotsForWeekInternal } = require('./controllers/availableSlotCon
 const adminRoutes = require('./routes/adminRoutes');
 const patientRoutes = require('./routes/authRoutes'); 
 const appointmentRoutes = require('./routes/appointmentRoutes'); 
-const slotRoutes = require('./routes/slotRoutes'); 
+const slotRoutes = require('./routes/slotRoutes');
+const patientHistoryRoutes = require('./routes/patientHistoryRoutes'); 
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/patients', patientRoutes);
 app.use('/api/appointments', appointmentRoutes); 
 app.use('/api/slots', slotRoutes);
+app.use('/api/patients', patientHistoryRoutes);
 
 app.get('/', (req, res) => {
   res.send('Dental Clinic API is running');

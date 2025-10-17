@@ -34,7 +34,7 @@ const UpcomingAppointments = ({ isOpen, onClose, patientId, onAppointmentChange,
       console.log('Fetching upcoming appointments for patient:', patientId);
       console.log('Using token:', token ? 'Present' : 'Missing');
       
-      const response = await axios.get(`http://localhost:5050/api/appointments/upcoming/${patientId}`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/appointments/upcoming/${patientId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -57,7 +57,7 @@ const UpcomingAppointments = ({ isOpen, onClose, patientId, onAppointmentChange,
     
     setSlotLoading(true);
     try {
-      const response = await axios.get(`http://localhost:5050/api/slots/available?date=${date}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/slots/available?date=${date}`);
       setAvailableSlots(response.data || []);
     } catch (err) {
       console.error('Error fetching available slots:', err);
@@ -72,7 +72,7 @@ const UpcomingAppointments = ({ isOpen, onClose, patientId, onAppointmentChange,
     try {
       const token = localStorage.getItem('patientToken');
       await axios.put(
-        `http://localhost:5050/api/appointments/cancel/${selectedAppointment._id}`,
+        `${import.meta.env.VITE_API_URL}/api/appointments/cancel/${selectedAppointment._id}`,
         { reason: cancelReason },
         {
           headers: {
@@ -98,7 +98,7 @@ const UpcomingAppointments = ({ isOpen, onClose, patientId, onAppointmentChange,
     try {
       const token = localStorage.getItem('patientToken');
       await axios.put(
-        `http://localhost:5050/api/appointments/reschedule/${selectedAppointment._id}`,
+        `${import.meta.env.VITE_API_URL}/api/appointments/reschedule/${selectedAppointment._id}`,
         { newDate, newTimeSlot },
         {
           headers: {
@@ -206,7 +206,7 @@ const UpcomingAppointments = ({ isOpen, onClose, patientId, onAppointmentChange,
                 onClick={async () => {
                   try {
                     const token = localStorage.getItem('patientToken');
-                    const response = await axios.get(`http://localhost:5050/api/appointments/debug/${patientId}`, {
+                    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/appointments/debug/${patientId}`, {
                       headers: { Authorization: `Bearer ${token}` }
                     });
                     console.log('Debug response:', response.data);
@@ -234,7 +234,7 @@ const UpcomingAppointments = ({ isOpen, onClose, patientId, onAppointmentChange,
                   onClick={async () => {
                     try {
                       const token = localStorage.getItem('patientToken');
-                      const response = await axios.get(`http://localhost:5050/api/appointments/debug/${patientId}`, {
+                      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/appointments/debug/${patientId}`, {
                         headers: { Authorization: `Bearer ${token}` }
                       });
                       console.log('Debug response:', response.data);

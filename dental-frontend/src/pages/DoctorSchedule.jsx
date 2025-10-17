@@ -30,7 +30,7 @@ const DoctorSchedule = () => {
       }
 
       const response = await axios.get(
-        `http://localhost:5050/api/slots?date=${date}`,
+        `${import.meta.env.VITE_API_URL}/api/slots?date=${date}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -93,7 +93,7 @@ const DoctorSchedule = () => {
       };
 
       const response = await axios.delete(
-       `http://localhost:5050/api/slots/day?date=${selectedDate}`,
+       `${import.meta.env.VITE_API_URL}/api/slots/day?date=${selectedDate}`,
         config
       );
 
@@ -117,7 +117,7 @@ const DoctorSchedule = () => {
     try {
       const token = localStorage.getItem('adminToken');
       const response = await axios.post(
-        `http://localhost:5050/api/slots`,
+        `${import.meta.env.VITE_API_URL}/api/slots`,
         {
           date: selectedDate,
           timeSlot: newSlotTime,

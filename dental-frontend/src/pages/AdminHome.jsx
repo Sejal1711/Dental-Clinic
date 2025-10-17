@@ -32,7 +32,7 @@ const AdminHome = () => {
 
       // First, test if admin authentication is working
       try {
-        const testRes = await axios.get('http://localhost:5050/api/admin/appointments', {
+        const testRes = await axios.get('${import.meta.env.VITE_API_URL}/api/admin/appointments', {
           headers: { Authorization: `Bearer ${token}` }
         });
         console.log('Admin authentication test successful');
@@ -50,10 +50,10 @@ const AdminHome = () => {
       try {
         // Try admin endpoints first
         [todayAppointmentsRes, allAppointmentsRes] = await Promise.all([
-          axios.get('http://localhost:5050/api/admin/appointments/today', {
+          axios.get('${import.meta.env.VITE_API_URL}/api/admin/appointments/today', {
             headers: { Authorization: `Bearer ${token}` }
           }),
-          axios.get('http://localhost:5050/api/admin/appointments', {
+          axios.get('${import.meta.env.VITE_API_URL}/api/admin/appointments', {
             headers: { Authorization: `Bearer ${token}` }
           })
         ]);
@@ -62,10 +62,10 @@ const AdminHome = () => {
         console.log('Admin endpoints failed, trying regular endpoints:', adminError.response?.status);
         // Fallback to regular endpoints
         [todayAppointmentsRes, allAppointmentsRes] = await Promise.all([
-          axios.get('http://localhost:5050/api/appointments/today', {
+          axios.get('${import.meta.env.VITE_API_URL}/api/appointments/today', {
             headers: { Authorization: `Bearer ${token}` }
           }),
-          axios.get('http://localhost:5050/api/appointments/all', {
+          axios.get('${import.meta.env.VITE_API_URL}/api/appointments/all', {
             headers: { Authorization: `Bearer ${token}` }
           })
         ]);
@@ -81,14 +81,14 @@ const AdminHome = () => {
       
       try {
         // Try admin slots endpoint first
-        availableSlotsRes = await axios.get(`http://localhost:5050/api/admin/slots?date=${today}&availableOnly=true`, {
+        availableSlotsRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/slots?date=${today}&availableOnly=true`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         console.log('Using admin slots endpoint');
       } catch (slotsError) {
         console.log('Admin slots endpoint failed, trying regular endpoint:', slotsError.response?.status);
         // Fallback to regular slots endpoint
-        availableSlotsRes = await axios.get(`http://localhost:5050/api/slots?date=${today}&availableOnly=true`, {
+        availableSlotsRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/slots?date=${today}&availableOnly=true`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         console.log('Using regular slots endpoint');

@@ -30,7 +30,7 @@ const BookAppointment = () => {
 
       try {
         const res = await axios.get(
-          `http://localhost:5050/api/slots?date=${date}&availableOnly=true`,
+          `${import.meta.env.VITE_API_URL}/api/slots?date=${date}&availableOnly=true`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('patientToken')}`,
@@ -70,7 +70,7 @@ const BookAppointment = () => {
 
     try {
       await axios.post(
-        `http://localhost:5050/api/appointments/book`,
+        `${import.meta.env.VITE_API_URL}/api/appointments/book`,
         {
           date,
           timeSlot: slotTime,

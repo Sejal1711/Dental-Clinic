@@ -17,7 +17,7 @@ const PatientDashboard = () => {
     const fetchDashboard = async () => {
       try {
         const token = localStorage.getItem('patientToken');
-        const res = await axios.get('http://localhost:5050/api/patients/dashboard', {
+        const res = await axios.get('${import.meta.env.VITE_API_URL}/api/patients/dashboard', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -47,7 +47,7 @@ const PatientDashboard = () => {
   const fetchUpcomingCount = async (patientId, token) => {
     try {
       console.log('Fetching upcoming count for patient:', patientId);
-      const response = await axios.get(`http://localhost:5050/api/appointments/upcoming/${patientId}`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/appointments/upcoming/${patientId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -32,7 +32,7 @@ const AdminHome = () => {
 
       // First, test if admin authentication is working
       try {
-        const testRes = await axios.get('${import.meta.env.VITE_API_URL}/api/admin/appointments', {
+        const testRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/appointments`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         console.log('Admin authentication test successful');
@@ -50,10 +50,10 @@ const AdminHome = () => {
       try {
         // Try admin endpoints first
         [todayAppointmentsRes, allAppointmentsRes] = await Promise.all([
-          axios.get('${import.meta.env.VITE_API_URL}/api/admin/appointments/today', {
+          axios.get(`${import.meta.env.VITE_API_URL}/api/admin/appointments/today`, {
             headers: { Authorization: `Bearer ${token}` }
           }),
-          axios.get('${import.meta.env.VITE_API_URL}/api/admin/appointments', {
+          axios.get(`${import.meta.env.VITE_API_URL}/api/admin/appointments`, {
             headers: { Authorization: `Bearer ${token}` }
           })
         ]);
@@ -62,10 +62,10 @@ const AdminHome = () => {
         console.log('Admin endpoints failed, trying regular endpoints:', adminError.response?.status);
         // Fallback to regular endpoints
         [todayAppointmentsRes, allAppointmentsRes] = await Promise.all([
-          axios.get('${import.meta.env.VITE_API_URL}/api/appointments/today', {
+          axios.get(`${import.meta.env.VITE_API_URL}/api/appointments/today`, {
             headers: { Authorization: `Bearer ${token}` }
           }),
-          axios.get('${import.meta.env.VITE_API_URL}/api/appointments/all', {
+          axios.get(`${import.meta.env.VITE_API_URL}/api/appointments/all`, {
             headers: { Authorization: `Bearer ${token}` }
           })
         ]);

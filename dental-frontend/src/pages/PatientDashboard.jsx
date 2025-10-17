@@ -17,7 +17,7 @@ const PatientDashboard = () => {
     const fetchDashboard = async () => {
       try {
         const token = localStorage.getItem('patientToken');
-        const res = await axios.get('${import.meta.env.VITE_API_URL}/api/patients/dashboard', {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/patients/dashboard`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

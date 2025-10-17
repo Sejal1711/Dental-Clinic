@@ -24,9 +24,9 @@ const HospitalMap = () => {
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-1">Address</h4>
                     <p className="text-gray-600">
-                      123 Dental Street<br />
-                      Health City, HC 12345<br />
-                      United States
+                      Morya Dental Clinic<br />
+                      Ch.Sambhajinagar<br />
+                      
                     </p>
                   </div>
                 </div>
@@ -35,7 +35,7 @@ const HospitalMap = () => {
                   <Phone className="w-6 h-6 text-blue-600 mr-4" />
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-1">Phone</h4>
-                    <p className="text-gray-600">+1 (555) 123-4567</p>
+                    <p className="text-gray-600">123456789</p>
                   </div>
                 </div>
 
@@ -52,7 +52,7 @@ const HospitalMap = () => {
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-1">Hours</h4>
                     <div className="text-gray-600 space-y-1">
-                      <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+                      <p>Monday - Friday: 10:00am - 9:00pm</p>
                       <p>Saturday: 9:00 AM - 2:00 PM</p>
                       <p>Sunday: Closed</p>
                     </div>
@@ -61,27 +61,6 @@ const HospitalMap = () => {
               </div>
             </div>
 
-            <div className="bg-gray-50 rounded-2xl p-8">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Why Choose Our Location?</h3>
-              <ul className="space-y-3 text-gray-600">
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-                  Conveniently located in the city center
-                </li>
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-                  Free parking available
-                </li>
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-                  Easily accessible by public transport
-                </li>
-                <li className="flex items-center">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-                  Wheelchair accessible entrance
-                </li>
-              </ul>
-            </div>
           </div>
 
           {/* Map */}

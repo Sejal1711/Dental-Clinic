@@ -9,16 +9,12 @@ const doctors = [
   {
     name: 'Dr. Snehal Tawar',
     image: 'dr1.jpg',
-    specialization: 'General Dentistry',
-    experience: '10+ years',
-    rating: 4.9,
+    specialization: 'Orthodontics',
   },
   {
     name: 'Dr. Ankit Sable',
     image: 'dr2.jpg',
     specialization: 'Orthodontics',
-    experience: '8+ years',
-    rating: 4.8,
   },
 ];
 
@@ -177,7 +173,7 @@ const Home = () => {
                 <div className="p-6">
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">{doctor.name}</h3>
                   <p className="text-blue-600 font-semibold mb-2">{doctor.specialization}</p>
-                  <p className="text-gray-600 mb-4">{doctor.experience} of experience</p>
+    
                   <div className="flex items-center text-sm text-gray-500">
                     <Shield className="w-4 h-4 mr-2" />
                     <span>Licensed & Certified</span>
@@ -277,7 +273,7 @@ const Home = () => {
             >
               <Phone className="w-8 h-8 text-blue-400 mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-2">Call Us</h3>
-              <p className="text-gray-300">+1 (555) 123-4567</p>
+              <p className="text-gray-300">123456789</p>
             </motion.div>
 
             <motion.div
@@ -301,7 +297,7 @@ const Home = () => {
             >
               <MapPin className="w-8 h-8 text-blue-400 mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-2">Visit Us</h3>
-              <p className="text-gray-300">123 Dental Street, Health City</p>
+              <p className="text-gray-300">Morya Clinic, Ch.Sambhajinagar</p>
             </motion.div>
           </div>
 
